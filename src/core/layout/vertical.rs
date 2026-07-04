@@ -1,13 +1,9 @@
 use macroquad::prelude::*;
 
-use crate::{
-    drawable::Drawable,
-    geometry::{self, Bounds},
-    layout::traits::Layout,
-};
+use crate::core::{drawable::Drawable, geometry::Bounds, layout::traits::Layout};
 
 pub struct VerticalLayout {
-    pub bounds: geometry::Bounds,
+    pub bounds: Bounds,
     pub children: Vec<Box<dyn Drawable>>,
     pub background: Color,
 }
