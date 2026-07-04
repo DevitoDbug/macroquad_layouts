@@ -20,14 +20,6 @@ impl VerticalLayout {
             background,
         }
     }
-
-    fn get_max_height(&self) -> f32 {
-        self.bounds.y + self.bounds.height
-    }
-
-    fn get_max_width(&self) -> f32 {
-        self.bounds.x + self.bounds.width
-    }
 }
 
 impl Layout for VerticalLayout {
@@ -37,8 +29,8 @@ impl Layout for VerticalLayout {
         let x = self.bounds.x; // starting point x  
         let mut y = self.bounds.y + self.bounds.padding; // starting points y
 
-        let max_layout_x = self.get_max_width();
-        let max_layout_y = self.get_max_height();
+        let max_layout_x = self.bounds.get_max_width();
+        let max_layout_y = self.bounds.get_max_height();
 
         for child in &self.children {
             let (max_x, max_y) = child.draw(x, y);
@@ -57,6 +49,6 @@ impl Layout for VerticalLayout {
 impl Drawable for VerticalLayout {
     fn draw(&self, x: f32, y: f32) -> (f32, f32) {
         draw_rectangle(x, y, self.bounds.width, self.bounds.height, self.background);
-        (self.get_max_width(), self.get_max_height())
+        (self.bounds.get_max_width(), self.bounds.get_max_height())
     }
 }
