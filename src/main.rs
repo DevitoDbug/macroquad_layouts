@@ -1,9 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused)]
 
-mod drawable;
-mod geometry;
-mod layout;
+mod core;
 
 fn main() {
     println!("Hello, world!");
