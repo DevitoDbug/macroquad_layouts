@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::{drawable::Drawable, geometry::Bounds};
+use crate::core::{drawable::Drawable, geometry::Bounds};
 
 struct Button {
     pub bounds: Bounds,
