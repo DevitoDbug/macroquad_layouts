@@ -19,4 +19,12 @@ impl Bounds {
             gap,
         }
     }
+
+    pub fn get_max_height(&self) -> f32 {
+        self.y + self.height
+    }
+
+    pub fn get_max_width(&self) -> f32 {
+        self.x + self.width
+    }
 }
