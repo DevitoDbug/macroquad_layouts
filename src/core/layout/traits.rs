@@ -1,3 +1,3 @@
 pub trait Layout {
-    fn arrange(&self);
+    fn arrange(&mut self);
 }
