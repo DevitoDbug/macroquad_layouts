@@ -12,8 +12,10 @@ nested inside each other, similar to how layouts work in Flutter/web CSS.
 ## Status
 
 MVP stage. Currently working:
-- A test `Button` component
+- Layouts creation.
+- Layouts can nest other layouts.
 - `HorizontalLayout` and `VerticalLayout` containers that can nest components
+- A test `Button` component
 
 Buttons don't react to events yet — that's next.
 
