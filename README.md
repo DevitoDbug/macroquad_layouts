@@ -15,6 +15,10 @@ MVP stage. Currently working:
 - Layouts creation.
 - Layouts can nest other layouts.
 - `HorizontalLayout` and `VerticalLayout` containers that can nest components
+- `HorizontalLayout` and `VerticalLayout`  kind of truncate components that cannot fit in the layout. 
+This behaviour could stick, wrapping could be added as part of a different layout, or i could just say fuck it 
+and modify them to at least try wrapping before truncating. 
+
 - A test `Button` component
 
 Buttons don't react to events yet — that's next.
