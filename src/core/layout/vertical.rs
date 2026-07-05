@@ -16,35 +16,59 @@ impl VerticalLayout {
             background,
         }
     }
+    pub fn new_component(
+        height: f32,
+        width: f32,
+        gap: f32,
+        padding: f32,
+        children: Vec<Box<dyn Drawable>>,
+        background: Color,
+    ) -> Self {
+        Self {
+            bounds: Bounds {
+                x: 0.,
+                y: 0.,
+                width,
+                height,
+                padding,
+                gap,
+            },
+            children,
+            background,
+        }
+    }
 }
 
 impl Layout for VerticalLayout {
     // Based on the bounds of the vertical layout should be able to
     // arrange the give components within  the specified bounds
-    fn arrange(&self) {
+    fn arrange(&mut self) {
         let x = self.bounds.x; // starting point x  
         let mut y = self.bounds.y + self.bounds.padding; // starting points y
 
         let max_layout_x = self.bounds.get_max_width();
         let max_layout_y = self.bounds.get_max_height();
 
-        for child in &self.children {
-            let (max_x, max_y) = child.draw(x, y);
+        for child in &mut self.children {
+            let (child_width, child_height) = child.draw(x, y);
             // X remains the same,
             // Y goes down that means ++
             // Check to see if we have enough space to continue with the iteration
-            if y + max_y >= max_layout_y {
+            if y + child_height >= max_layout_y {
                 break;
             }
 
-            y += (max_y + self.bounds.gap);
+            y += (child_height + self.bounds.gap);
         }
     }
 }
 
 impl Drawable for VerticalLayout {
-    fn draw(&self, x: f32, y: f32) -> (f32, f32) {
+    fn draw(&mut self, x: f32, y: f32) -> (f32, f32) {
+        self.bounds.x = x;
+        self.bounds.y = y;
         draw_rectangle(x, y, self.bounds.width, self.bounds.height, self.background);
-        (self.bounds.get_max_width(), self.bounds.get_max_height())
+        self.arrange();
+        (self.bounds.x, self.bounds.y)
     }
 }
