@@ -1,25 +1,65 @@
 use macroquad::prelude::*;
 
+use crate::{
+    core::{
+        drawable::Drawable,
+        geometry::Bounds,
+        layout::{
+            horizontal::{self, HorizontalLayout},
+            traits::Layout,
+            vertical::VerticalLayout,
+        },
+        widgets::button::Button,
+    },
+    game::{BLOCK_SIZE, WINDOW_WIDTH},
+};
+
 pub struct Sidebar {
-    pub x: f32,
-    pub y: f32,
-    pub width: f32,
-    pub height: f32,
     pub background: Color,
+    pub bounds: Bounds,
 }
 
 impl Sidebar {
-    pub fn new(x: f32, y: f32, width: f32, height: f32, background: Color) -> Self {
-        Self {
-            x,
-            y,
-            width,
-            height,
-            background,
-        }
+    pub fn new(background: Color, bounds: Bounds) -> Self {
+        Self { background, bounds }
     }
 
     pub fn render(&self) {
-        draw_rectangle(self.x, self.y, self.width, self.height, self.background);
+        let button1 = Box::new(Button::new(
+            BLOCK_SIZE as f32 * 2.,
+            BLOCK_SIZE as f32 * 5.,
+            GREEN,
+        ));
+        let button2 = Box::new(Button::new(
+            BLOCK_SIZE as f32 * 2.,
+            BLOCK_SIZE as f32 * 2.,
+            GREEN,
+        ));
+        let button3 = Box::new(Button::new(
+            BLOCK_SIZE as f32 * 2.,
+            BLOCK_SIZE as f32 * 5.,
+            ORANGE,
+        ));
+        let button4 = Box::new(Button::new(
+            BLOCK_SIZE as f32 * 2.,
+            BLOCK_SIZE as f32 * 2.,
+            PURPLE,
+        ));
+
+        let mut hor_layout = Box::new(HorizontalLayout::new_component(
+            self.bounds.height * 20. / 100.,
+            self.bounds.width,
+            1.,
+            1.,
+            vec![button4, button3],
+            YELLOW,
+        ));
+
+        let mut vert_layout = VerticalLayout::new(
+            Bounds { ..self.bounds },
+            vec![button1, hor_layout, button2],
+            self.background,
+        );
+        vert_layout.draw(self.bounds.x, self.bounds.y);
     }
 }
