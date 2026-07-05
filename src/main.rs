@@ -5,6 +5,7 @@ use macroquad::prelude::*;
 
 use crate::{
     components::sidebar::Sidebar,
+    core::geometry::Bounds,
     game::{WINDOW_HEIGHT, WINDOW_WIDTH},
 };
 
@@ -33,11 +34,15 @@ fn window_conf() -> Conf {
 
 fn render_screen() {
     let sidebar = Sidebar::new(
-        WINDOW_WIDTH as f32 - (WINDOW_WIDTH as f32 * 50. / 100.),
-        0.,
-        WINDOW_WIDTH as f32 * 60. / 100.,
-        WINDOW_HEIGHT as f32,
-        RED,
+        BROWN,
+        Bounds {
+            x: WINDOW_WIDTH as f32 - (WINDOW_WIDTH as f32 * 50. / 100.),
+            y: 0.,
+            width: WINDOW_WIDTH as f32 * 60. / 100.,
+            height: WINDOW_HEIGHT as f32,
+            gap: 2.0,
+            padding: 2.0,
+        },
     );
     sidebar.render();
 }
