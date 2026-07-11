@@ -1,39 +1,63 @@
 use macroquad::prelude::*;
 
-use crate::core::{drawable::Drawable, geometry::Bounds, layout::traits::Layout};
+use crate::core::{
+    drawable::Drawable,
+    event::{event::Event, traits::EventListener},
+    geometry::Bounds,
+    layout::traits::Layout,
+};
 
 pub struct HorizontalLayout {
-    pub bounds: Bounds,
+    pub x: Option<f32>,
+    pub y: Option<f32>,
+
+    pub h: f32,
+    pub w: f32,
+    pub padding: f32,
+    pub gap: f32,
+
     pub children: Vec<Box<dyn Drawable>>,
     pub background: Color,
 }
 
 impl HorizontalLayout {
-    pub fn new(bounds: Bounds, children: Vec<Box<dyn Drawable>>, background: Color) -> Self {
-        Self {
-            bounds,
-            children,
-            background,
-        }
-    }
-
-    pub fn new_component(
-        height: f32,
-        width: f32,
+    pub fn new(
+        h: f32,
+        w: f32,
         gap: f32,
         padding: f32,
         children: Vec<Box<dyn Drawable>>,
         background: Color,
     ) -> Self {
         Self {
-            bounds: Bounds {
-                x: 0.,
-                y: 0.,
-                width,
-                height,
-                padding,
-                gap,
-            },
+            x: None,
+            y: None,
+            w,
+            h,
+            padding,
+            gap,
+            children,
+            background,
+        }
+    }
+
+    pub fn new_with_position(
+        x: f32,
+        y: f32,
+        h: f32,
+        w: f32,
+        gap: f32,
+        padding: f32,
+        children: Vec<Box<dyn Drawable>>,
+        background: Color,
+    ) -> Self {
+        Self {
+            x: Some(x),
+            y: Some(x),
+            w,
+            h,
+            padding,
+            gap,
             children,
             background,
         }
@@ -42,11 +66,18 @@ impl HorizontalLayout {
 
 impl Layout for HorizontalLayout {
     fn arrange(&mut self) {
-        let mut x = self.bounds.x + self.bounds.padding;
-        let y = self.bounds.y;
+        let x = match self.x {
+            None => 0.,
+            Some(val) => val,
+        };
+        let mut x = x + self.padding;
+        let y = match self.y {
+            None => 0.,
+            Some(val) => val,
+        };
 
-        let max_layout_x = self.bounds.get_max_width();
-        let max_layout_y = self.bounds.get_max_height();
+        let max_layout_x = x + self.w;
+        let max_layout_y = y + self.h;
 
         for child in &mut self.children {
             let (child_width, child_height) = child.draw(x, y);
@@ -54,17 +85,23 @@ impl Layout for HorizontalLayout {
                 break;
             }
 
-            x += (child_width + self.bounds.gap);
+            x += (child_width + self.gap);
         }
     }
 }
 
 impl Drawable for HorizontalLayout {
     fn draw(&mut self, x: f32, y: f32) -> (f32, f32) {
-        self.bounds.x = x;
-        self.bounds.y = y;
-        draw_rectangle(x, y, self.bounds.width, self.bounds.height, self.background);
+        self.x = Some(x);
+        self.y = Some(y);
+        draw_rectangle(x, y, self.w, self.h, self.background);
         self.arrange();
-        (self.bounds.width, self.bounds.height)
+        (self.w, self.h)
+    }
+}
+
+impl EventListener for HorizontalLayout {
+    fn handle_event(&self, e: Event) -> bool {
+        false
     }
 }
