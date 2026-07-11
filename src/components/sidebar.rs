@@ -46,7 +46,7 @@ impl Sidebar {
             PURPLE,
         ));
 
-        let mut hor_layout = Box::new(HorizontalLayout::new_component(
+        let mut hor_layout = Box::new(HorizontalLayout::new(
             self.bounds.height * 20. / 100.,
             self.bounds.width,
             1.,
@@ -55,8 +55,13 @@ impl Sidebar {
             YELLOW,
         ));
 
-        let mut vert_layout = VerticalLayout::new(
-            Bounds { ..self.bounds },
+        let mut vert_layout = VerticalLayout::new_with_pos(
+            self.bounds.x,
+            self.bounds.y,
+            self.bounds.height,
+            self.bounds.width,
+            self.bounds.gap,
+            self.bounds.padding,
             vec![button1, hor_layout, button2],
             self.background,
         );
