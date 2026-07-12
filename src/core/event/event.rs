@@ -16,10 +16,13 @@ impl Event {
     }
 
     //TODO: Check currently assumes that all users of this method are rects
-    pub fn is_within_bounds(&self, x: f32, y: f32) -> bool {
-        if x > self.event_x && y > self.event_y {
-            return true;
+    pub fn is_within_bounds(&self, x: f32, y: f32, h: f32, w: f32) -> bool {
+        if self.event_x > x && self.event_x < (x + w) {
+            if self.event_y > y && self.event_y < (y + h) {
+                return true;
+            }
         }
+
         false
     }
 }
