@@ -17,7 +17,17 @@ impl Event {
 
     //TODO: Check currently assumes that all users of this method are rects
     // Future versions should support other shapes supported by macroquad
-    pub fn is_within_bounds(&self, x: f32, y: f32, h: f32, w: f32) -> bool {
+    pub fn is_within_bounds(&self, x: Option<f32>, y: Option<f32>, h: f32, w: f32) -> bool {
+        let x = match x {
+            None => return false,
+            Some(val) => val,
+        };
+
+        let y = match y {
+            None => return false,
+            Some(val) => val,
+        };
+
         if self.event_x > x && self.event_x < (x + w) {
             if self.event_y > y && self.event_y < (y + h) {
                 return true;
