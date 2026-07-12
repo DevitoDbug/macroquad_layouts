@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::core::{drawable::Drawable, geometry::Bounds};
+use crate::core::{drawable::Drawable, event::event::Event, geometry::Bounds};
 
 pub struct Button {
     pub x: Option<f32>,
@@ -23,6 +23,10 @@ impl Button {
             y: None,
         }
     }
+
+    fn clicked(&self) {
+        print!("button: {:?} clicked ", self.background);
+    }
 }
 
 impl Drawable for Button {
@@ -32,5 +36,14 @@ impl Drawable for Button {
 
         draw_rectangle(x, y, self.width, self.height, self.background);
         (self.width, self.height)
+    }
+
+    fn handle_event(&self, e: &Event) -> Option<bool> {
+        if e.is_within_bounds(self.x, self.y, self.height, self.width) {
+            self.clicked();
+            return Some(true);
+        }
+
+        Some(false)
     }
 }
