@@ -1,6 +1,8 @@
 use macroquad::prelude::*;
 
-use crate::core::{drawable::Drawable, geometry::Bounds, layout::traits::Layout};
+use crate::core::{
+    drawable::Drawable, event::event::Event, geometry::Bounds, layout::traits::Layout,
+};
 
 pub struct VerticalLayout {
     pub x: Option<f32>,
@@ -96,5 +98,18 @@ impl Drawable for VerticalLayout {
         draw_rectangle(x, y, self.w, self.h, self.background);
         self.arrange();
         (self.w, self.h)
+    }
+    fn handle_event(&self, e: &Event) -> Option<bool> {
+        for child in self.children.iter() {
+            let has_handled_event = match child.handle_event(&e) {
+                None => false,
+                Some(val) => val,
+            };
+
+            if has_handled_event {
+                return Some(true);
+            }
+        }
+        Some(false)
     }
 }

@@ -1,10 +1,7 @@
 use macroquad::prelude::*;
 
 use crate::core::{
-    drawable::Drawable,
-    event::{event::Event, traits::EventListener},
-    geometry::Bounds,
-    layout::traits::Layout,
+    drawable::Drawable, event::event::Event, geometry::Bounds, layout::traits::Layout,
 };
 
 pub struct HorizontalLayout {
@@ -98,10 +95,17 @@ impl Drawable for HorizontalLayout {
         self.arrange();
         (self.w, self.h)
     }
-}
+    fn handle_event(&self, e: &Event) -> Option<bool> {
+        for child in self.children.iter() {
+            let has_handled_event = match child.handle_event(&e) {
+                None => false,
+                Some(val) => val,
+            };
 
-impl EventListener for HorizontalLayout {
-    fn handle_event(&self, e: Event) -> bool {
-        false
+            if has_handled_event {
+                return Some(true);
+            }
+        }
+        Some(false)
     }
 }
