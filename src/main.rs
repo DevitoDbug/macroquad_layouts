@@ -28,6 +28,7 @@ fn window_conf() -> Conf {
         window_title: "Layout".to_string(),
         window_width: game::WINDOW_WIDTH,
         window_height: game::WINDOW_HEIGHT,
+        window_resizable: false,
         ..Default::default()
     }
 }
