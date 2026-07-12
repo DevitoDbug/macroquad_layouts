@@ -77,24 +77,33 @@ impl Layout for HorizontalLayout {
         let max_layout_y = y + self.h;
 
         for child in &mut self.children {
-            let (child_width, child_height) = child.draw(x, y);
+            let (child_width, _) = child.get_dimensions();
+            let child_width = match child_width {
+                None => break,
+                Some(val) => val,
+            };
             if x + child_width >= max_layout_x {
                 break;
             }
 
+            child.draw(x, y);
             x += (child_width + self.gap);
         }
     }
 }
 
 impl Drawable for HorizontalLayout {
-    fn draw(&mut self, x: f32, y: f32) -> (f32, f32) {
+    fn draw(&mut self, x: f32, y: f32) {
         self.x = Some(x);
         self.y = Some(y);
         draw_rectangle(x, y, self.w, self.h, self.background);
         self.arrange();
-        (self.w, self.h)
     }
+
+    fn get_dimensions(&self) -> (Option<f32>, Option<f32>) {
+        return (self.x, self.y);
+    }
+
     fn handle_event(&self, e: &Event) -> Option<bool> {
         for child in self.children.iter() {
             let has_handled_event = match child.handle_event(&e) {

@@ -30,12 +30,15 @@ impl Button {
 }
 
 impl Drawable for Button {
-    fn draw(&mut self, x: f32, y: f32) -> (f32, f32) {
+    fn draw(&mut self, x: f32, y: f32) {
         self.x = Some(x);
         self.y = Some(y);
 
         draw_rectangle(x, y, self.width, self.height, self.background);
-        (self.width, self.height)
+    }
+
+    fn get_dimensions(&self) -> (Option<f32>, Option<f32>) {
+        return (self.x, self.y);
     }
 
     fn handle_event(&self, e: &Event) -> Option<bool> {
