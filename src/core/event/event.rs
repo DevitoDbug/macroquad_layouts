@@ -16,6 +16,7 @@ impl Event {
     }
 
     //TODO: Check currently assumes that all users of this method are rects
+    // Future versions should support other shapes supported by macroquad
     pub fn is_within_bounds(&self, x: f32, y: f32, h: f32, w: f32) -> bool {
         if self.event_x > x && self.event_x < (x + w) {
             if self.event_y > y && self.event_y < (y + h) {
