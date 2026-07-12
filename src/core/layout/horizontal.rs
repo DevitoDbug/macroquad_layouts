@@ -78,10 +78,6 @@ impl Layout for HorizontalLayout {
 
         for child in &mut self.children {
             let (child_width, _) = child.get_dimensions();
-            let child_width = match child_width {
-                None => break,
-                Some(val) => val,
-            };
             if x + child_width >= max_layout_x {
                 break;
             }
@@ -100,8 +96,8 @@ impl Drawable for HorizontalLayout {
         self.arrange();
     }
 
-    fn get_dimensions(&self) -> (Option<f32>, Option<f32>) {
-        return (self.x, self.y);
+    fn get_dimensions(&self) -> (f32, f32) {
+        return (self.w, self.h);
     }
 
     fn handle_event(&self, e: &Event) -> Option<bool> {

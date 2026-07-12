@@ -6,8 +6,8 @@ pub struct Button {
     pub x: Option<f32>,
     pub y: Option<f32>,
 
-    pub height: f32,
-    pub width: f32,
+    pub h: f32,
+    pub w: f32,
 
     pub background: Color,
 }
@@ -15,8 +15,8 @@ pub struct Button {
 impl Button {
     pub fn new(height: f32, width: f32, background: Color) -> Self {
         Self {
-            height,
-            width,
+            h: height,
+            w: width,
             background,
             // x and y can only be set during drawing
             x: None,
@@ -34,15 +34,15 @@ impl Drawable for Button {
         self.x = Some(x);
         self.y = Some(y);
 
-        draw_rectangle(x, y, self.width, self.height, self.background);
+        draw_rectangle(x, y, self.w, self.h, self.background);
     }
 
-    fn get_dimensions(&self) -> (Option<f32>, Option<f32>) {
-        return (self.x, self.y);
+    fn get_dimensions(&self) -> (f32, f32) {
+        return (self.w, self.h);
     }
 
     fn handle_event(&self, e: &Event) -> Option<bool> {
-        if e.is_within_bounds(self.x, self.y, self.height, self.width) {
+        if e.is_within_bounds(self.x, self.y, self.h, self.w) {
             self.clicked();
             return Some(true);
         }

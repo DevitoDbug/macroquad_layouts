@@ -79,10 +79,6 @@ impl Layout for VerticalLayout {
 
         for child in &mut self.children {
             let (_, child_height) = child.get_dimensions();
-            let child_height = match child_height {
-                None => break,
-                Some(val) => val,
-            };
             // X remains the same,
             // Y goes down that means ++
             // Check to see if we have enough space to continue with the iteration
@@ -104,8 +100,8 @@ impl Drawable for VerticalLayout {
         self.arrange();
     }
 
-    fn get_dimensions(&self) -> (Option<f32>, Option<f32>) {
-        return (self.x, self.y);
+    fn get_dimensions(&self) -> (f32, f32) {
+        return (self.w, self.h);
     }
 
     fn handle_event(&self, e: &Event) -> Option<bool> {
