@@ -15,14 +15,8 @@ mod game;
 
 #[macroquad::main(window_conf())]
 async fn main() {
-    let game = Game::new();
-
-    loop {
-        clear_background(WHITE);
-        game.start();
-
-        next_frame().await
-    }
+    let mut game = Game::new();
+    game.start().await;
 }
 
 fn window_conf() -> Conf {
