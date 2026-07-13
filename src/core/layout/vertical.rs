@@ -104,8 +104,8 @@ impl Drawable for VerticalLayout {
         return (self.w, self.h);
     }
 
-    fn handle_event(&self, e: &Event) -> Option<bool> {
-        for child in self.children.iter() {
+    fn handle_event(&mut self, e: &Event) -> Option<bool> {
+        for child in self.children.iter_mut() {
             let has_handled_event = match child.handle_event(&e) {
                 None => false,
                 Some(val) => val,
