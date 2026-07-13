@@ -25,7 +25,7 @@ impl Button {
     }
 
     fn clicked(&self) {
-        print!("button: {:?} clicked ", self.background);
+        println!("button: {:?} clicked ", self.background);
     }
 }
 

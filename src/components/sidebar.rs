@@ -3,6 +3,7 @@ use macroquad::prelude::*;
 use crate::{
     core::{
         drawable::Drawable,
+        event::event::Event,
         geometry::Bounds,
         layout::{
             horizontal::{self, HorizontalLayout},
@@ -24,7 +25,7 @@ impl Sidebar {
         Self { background, bounds }
     }
 
-    pub fn render(&self) {
+    pub fn render(&self, events: &Vec<Event>) {
         let button1 = Box::new(Button::new(
             BLOCK_SIZE as f32 * 2.,
             BLOCK_SIZE as f32 * 5.,
@@ -65,6 +66,10 @@ impl Sidebar {
             vec![button1, hor_layout, button2],
             self.background,
         );
+
         vert_layout.draw(self.bounds.x, self.bounds.y);
+        for e in events {
+            vert_layout.handle_event(e);
+        }
     }
 }
