@@ -9,27 +9,12 @@ use crate::{
     game::{WINDOW_HEIGHT, WINDOW_WIDTH},
 };
 
-pub struct Game {}
+pub struct Game {
+    sidebar: Sidebar,
+}
 
 impl Game {
     pub fn new() -> Self {
-        Self {}
-    }
-
-    pub fn start(&self) {
-        let mut events: Vec<Event> = vec![];
-
-        // Handle mouse events
-        let mouse_event = self.listen_to_mouse_event();
-        match mouse_event {
-            None => (),
-            Some(val) => events.push(val),
-        }
-
-        self.render_screen_layout(&events);
-    }
-
-    fn render_screen_layout(&self, events: &Vec<Event>) {
         let game_panel_width = (WINDOW_WIDTH as f32 * 40. / 100.);
         let sidebar_width = (WINDOW_WIDTH as f32 * 60. / 100.);
         let sidebar = Sidebar::new(
@@ -43,7 +28,30 @@ impl Game {
                 padding: 2.0,
             },
         );
-        sidebar.render(events);
+
+        Self { sidebar }
+    }
+
+    pub async fn start(&mut self) {
+        loop {
+            clear_background(WHITE);
+
+            let mut events: Vec<Event> = vec![];
+
+            // Handle mouse events
+            let mouse_event = self.listen_to_mouse_event();
+            match mouse_event {
+                None => (),
+                Some(val) => events.push(val),
+            }
+
+            self.render_screen_layout(&events);
+            next_frame().await
+        }
+    }
+
+    fn render_screen_layout(&mut self, events: &Vec<Event>) {
+        self.sidebar.render(events);
     }
 
     fn listen_to_mouse_event(&self) -> Option<Event> {
