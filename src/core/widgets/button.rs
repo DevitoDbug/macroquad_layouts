@@ -41,7 +41,7 @@ impl Drawable for Button {
         return (self.w, self.h);
     }
 
-    fn handle_event(&self, e: &Event) -> Option<bool> {
+    fn handle_event(&mut self, e: &Event) -> Option<bool> {
         if e.is_within_bounds(self.x, self.y, self.h, self.w) {
             self.clicked();
             return Some(true);
